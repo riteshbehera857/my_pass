@@ -1,30 +1,26 @@
-const fs = require('fs')
+// exports.checkID = (req, res, next, val) => {
 
-const data = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/credentials.json`))
+//     if (req.params.id * 1 > data.length) {
+//         return res.status(404).json({
+//             status: "Fail",
+//             message: "Invalid ID"
+//         })
+//     }
 
-exports.checkID = (req, res, next, val) => {
+//     next()
+// }
 
-    if (req.params.id * 1 > data.length) {
-        return res.status(404).json({
-            status: "Fail",
-            message: "Invalid ID"
-        })
-    }
+// exports.checkBody = (req, res, next) => {
 
-    next()
-}
+//     if (!req.body.name || !req.body.password) {
+//         return res.status(400).json({
+//             status: "fail",
+//             message: "Missing name or price"
+//         })
+//     }
 
-exports.checkBody = (req, res, next) => {
-
-    if (!req.body.name || !req.body.password) {
-        return res.status(400).json({
-            status: "fail",
-            message: "Missing name or price"
-        })
-    }
-
-    next()
-}
+//     next()
+// }
 
 exports.getAllCredentials = (req, res) => {
 
@@ -32,44 +28,45 @@ exports.getAllCredentials = (req, res) => {
         .status(200)
         .json({
             status: 'success',
-            results: data.length,
-            data: {
-                data
-            }
+            message: 'Retrieved successfully',
         })
 }
 
-exports.getCredential = (req, res) => {
+// exports.getCredential = (req, res) => {
 
-    const id = req.params.id * 1
-    const item = data.find(el => el.id === id)
+//     const id = req.params.id * 1
+//     const item = data.find(el => el.id === id)
 
-    res.status(200).json({
-        status: "success",
-        data: {
-            data: item
-        }
-    })
-}
+//     res.status(200).json({
+//         status: "success",
+//         data: {
+//             data: item
+//         }
+//     })
+// }
 
 exports.createCredential = (req, res) => {
 
-    const newId = data[data.length - 1].id + 1
-    const newCredentials = Object.assign({ id: newId }, req.body)
+    if (!req.body.text) {
+        return res.status(400).json({
+            message: "Missing text"
+        })
+    }
 
-    data.push(newCredentials)
+    // const newId = data[data.length - 1].id + 1
+    // const newCredentials = Object.assign({ id: newId }, req.body)
 
-    fs.writeFile(`${__dirname}/dev-data/credentials.json`, JSON.stringify(data), err => {
-        if (err) {
-            console.log(err)
-            return
-        } else {
-            res.status(201).json({
-                status: "success",
-                data: {
-                    data: newCredentials
-                }
-            })
+    // data.push(newCredentials)
+
+    // fs.writeFile(`${__dirname}/dev-data/credentials.json`, JSON.stringify(data), err => {
+    //     if (err) {
+    //         console.log(err)
+    //         return
+    //     } else {
+    res.status(201).json({
+        status: "success",
+        data: {
+            data: newCredentials
         }
     })
 }

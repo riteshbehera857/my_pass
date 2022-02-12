@@ -5,13 +5,11 @@ const credentialsRouter = require('./routes/credRoutes')
 
 const app = express()
 
-app.use(morgan('dev'))
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+}
 app.use(express.json())
-
-// app.use((req, res, next) => {
-//     console.log("Hello From The Middleware ✌️")
-//     next()
-// })
+app.use(express.urlencoded({ extended: false }))
 
 
 //MOUNTING A ROUTER IN A ROUTE
