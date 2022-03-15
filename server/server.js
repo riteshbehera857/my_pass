@@ -11,7 +11,7 @@ mongoose
         useUnifiedTopology: true,
         useNewUrlParser: true,
     }).then(con => {
-        console.log(con.connection.host)
+        console.log(`Host: ${con.connection.host}`)
     }).catch(error => console.log(error))
 
 
